@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            {% block title%}{% endblock%}
+        </title>
+        <link rel="stylesheet" href={{ url_for('static', filename='styles.css') }} >
+    </head>
+    <body>
+        <div class="nav-bar">
+            <div class="side-menu">
+                    <a href="#">Home</a>
+                <a href="#">subscriptions</a>
+                <a href="#">library</a>
+                <a href="#">playlists</a>
+            </div>
+            <h1>YouTube</h1>
+            <input type="text" placeholder="search" />
+            <h1>+</h1>
+        </div>
+        {% block content %}{% endblock %}
+    </body>
+</html>

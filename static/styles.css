@@ -1,0 +1,23 @@
+body {
+    background-color: black;
+}
+
+body >h1 {
+    color: white;
+}
+
+.nav-bar{
+    display: flex;
+    align-items :center;
+    justify-content :space-between;
+    border :1px red solid;
+}
+.nav-bar h1{
+    color:white;
+}
+
+.side-menu{
+    display: flex;
+    flex-direction: column;
+}
+
