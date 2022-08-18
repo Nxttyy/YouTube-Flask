@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login or Signup</title>
+<style>
+body {
+    background-color:black;
+}
+
+.container > form{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.container label, a{
+    color: white;
+}
+</style>
+    </head>
+    <body>
+        <div class="container">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <label>{{ form.username.label() }}</label>
+                {{ form.username() }}
+                <label>{{ form.email.label() }}</label>
+                {{ form.email() }}
+                <label>{{ form.password.label() }}</label>
+                {{ form.password() }}
+                <label>{{ form.confirm.label() }}</label>
+                {{ form.confirm() }}
+                {{ form.submit() }}
+            </form>
+            <a href = {{ url_for('login') }} >login<a/>
+        </div>
+    </body>
+</html>
