@@ -33,5 +33,9 @@ def signup():
         return redirect('/')
     return render_template('signup.html', form=form)
 
+@app.route('/upload_video', methods=['GET', 'POST'])
+def upload_video():
+    return render_template('upload_video.html')
+
 if __name__ == '__main__':
     app.run()
