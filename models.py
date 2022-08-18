@@ -21,7 +21,8 @@ class User(db.Model):
 class Video(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     caption = db.Column(db.String(200), unique=False, nullable=False)
+    file_path = db.Column(db.String(12), unique=True, nullable=False)
     date = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
-    views = db.Column(db.Integer, nullable=False)
-    likes = db.Column(db.Integer, nullable=False)
+    views = db.Column(db.Integer, nullable=False, default=0)
+    likes = db.Column(db.Integer, nullable=False, default=0)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

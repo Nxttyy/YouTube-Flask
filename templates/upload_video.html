@@ -2,4 +2,12 @@
 {% block title %}Upload Video{% endblock %}
 {% block content %}
 <h1 style="color:white">Upload video</h1>
+<form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <label>{{ form.caption.label() }}</label>
+                {{ form.caption() }}
+                <label>{{ form.video.label() }}</label>
+                {{ form.video() }}
+                {{ form.submit() }}
+            </form>
 {% endblock %}
