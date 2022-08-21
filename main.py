@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, session
 from forms import SignupForm, LoginForm, VideoUploadForm
 from flask_bcrypt import Bcrypt
 import secrets, os
@@ -7,24 +7,20 @@ from models import User, Video, app, db
 
 bcrypt = Bcrypt(app)
 
-#variables to be improved(TEMP)
-authenticated = False
-authenticated_user_id = None
-
 @app.route('/')
 def home():
-    return render_template('home.html')
+    videos = Video.query.all()
+    return render_template('home.html', videos = videos)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global authenticated, authenticated_user_id
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if bcrypt.check_password_hash(user.password, form.password.data):
-            authenticated = True
-            authenticated_user_id = user.id
-            print('logged in')
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            session['logged_in'] = True
+            session['user_id'] = user
+            flash('logged in')
             return redirect('/')
         else:
             print('wrong password')
@@ -38,6 +34,8 @@ def signup():
         user = User(username=form.username.data, email=form.email.data, password=hashed_pass)
         db.session.add(user)
         db.session.commit()
+        session['logged_in'] = True
+        session['user_id'] = user.id
         return redirect('/')
     return render_template('signup.html', form=form)
 
@@ -47,15 +45,15 @@ def savevideo(formfile):
     video_filename = random_hex + ext
     video_path = os.path.join((app.root_path), 'static/videos/', video_filename)
     formfile.save(video_path)
-    return video_path
+    return video_filename
 
 @app.route('/upload_video', methods=['GET', 'POST'])
 def upload_video():
-    if authenticated:
+    if session['logged_in']:
         form = VideoUploadForm()
         if form.validate_on_submit() and form.video.data:
             path = savevideo(form.video.data)
-            vid = Video(caption=form.caption.data, file_path=path, user_id=authenticated_user_id)
+            vid = Video(caption=form.caption.data, file_path=path, user_id=session['user_id'])
             db.session.add(vid)
             db.session.commit()
             return redirect('/')
@@ -63,5 +61,12 @@ def upload_video():
     else:
         return redirect('/')
 
+@app.route("/video/<vid_id>", methods=['GET', 'POST'])
+def video(vid_id):
+    video = Video.query.get(vid_id)
+    videos = Video.query.all()
+    if video:
+        return render_template('player.html', video=video, videos=videos)
+    return 404
 if __name__ == '__main__':
     app.run()

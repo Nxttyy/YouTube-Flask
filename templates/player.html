@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div class="player">
+        <div class="player-card">
+          <video src=" {{ url_for('static', filename='videos/'+video.file_path) }}  " controls alt="{{video.caption}}" class="player-video"> </video>
+          <div class="player-card-container">
+            <h2>{{ video.caption }}
+            <h4><b>{{ video.user.username }}</b></h4>
+            <p>{{ video.views }}</p>
+          </div>
+        </div>
+        <div class="side-list">
+            {% for video in videos %}
+             <a href="{{ url_for('video', vid_id= video.id ) }}">
+                <div class="side-card">
+                  <video src=" {{ url_for('static', filename='videos/'+ video.file_path ) }}  " alt="{{video.caption}}" class="video"> </video>
+                  <div class="side-card-container">
+                    <h3>{{ video.caption }}</h3>
+                    <h4><b>{{ video.user.username }}</b></h4>
+                    <p>{{ video.views }}</p>
+                  </div>
+               </div>
+            </a>
+        {% endfor %} 
+        </div>
+    </div>
+{% endblock %}

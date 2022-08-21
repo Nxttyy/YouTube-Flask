@@ -1,5 +1,16 @@
 {% extends "layout.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-    <h1>Home</h1>
+    {% for video in videos %}
+         <a href="{{ url_for('video', vid_id= video.id ) }}">
+            <div class="card">
+              <video src=" {{ url_for('static', filename='videos/'+ video.file_path ) }}  " alt="{{video.caption}}" class="video"> </video>
+              <div class="card-container">
+                <h3>{{ video.caption }}</h3>
+                <h4><b>{{ video.user.username }}</b></h4>
+                <p>{{ video.views }}</p>
+              </div>
+           </div>
+        </a>
+    {% endfor %} 
 {% endblock %}
