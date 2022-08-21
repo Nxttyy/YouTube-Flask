@@ -18,3 +18,7 @@ class VideoUploadForm(FlaskForm):
    caption = StringField('caption', [validators.DataRequired()])
    video = FileField(validators = [FileRequired()])
    submit = SubmitField('upload')
+
+class CommentForm(FlaskForm):
+   content=StringField('comment', [validators.DataRequired()])
+   submit = SubmitField('post')

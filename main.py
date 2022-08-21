@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, session
-from forms import SignupForm, LoginForm, VideoUploadForm
+from flask import Flask, render_template, redirect, session, abort
+from forms import SignupForm, LoginForm, VideoUploadForm, CommentForm
 from flask_bcrypt import Bcrypt
 import secrets, os
-from models import User, Video, app, db
+from models import User, Video, Comment, app, db
 
 
 bcrypt = Bcrypt(app)
@@ -63,10 +63,23 @@ def upload_video():
 
 @app.route("/video/<vid_id>", methods=['GET', 'POST'])
 def video(vid_id):
+    form=CommentForm()
     video = Video.query.get(vid_id)
     videos = Video.query.all()
+    comments=Comment.query.all()
+    if form.validate_on_submit() and form.content.data:
+        comment = Comment(content=form.content.data, user_id=session['user_id'], video_id=vid_id)
+        db.session.add(comment)
+        db.session.commit()
+        form.content.data = ''
     if video:
-        return render_template('player.html', video=video, videos=videos)
-    return 404
+        return render_template('player.html', video=video, videos=videos, form=form, comments=comments)
+    return abort(404)
+
+# @app.route('/comment/<vid_id>', methods=['GET', 'POST'])
+# def comment(vid_id):
+#     form = CommentForm()
+    
+#     return redirect('video', vid_id=vid_id)
 if __name__ == '__main__':
     app.run()
