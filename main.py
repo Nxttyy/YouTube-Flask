@@ -66,7 +66,7 @@ def video(vid_id):
     form=CommentForm()
     video = Video.query.get(vid_id)
     videos = Video.query.all()
-    comments=Comment.query.all()
+    comments=Comment.query.filter_by(video_id=vid_id)
     if form.validate_on_submit() and form.content.data:
         comment = Comment(content=form.content.data, user_id=session['user_id'], video_id=vid_id)
         db.session.add(comment)
