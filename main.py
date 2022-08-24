@@ -19,8 +19,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             session['logged_in'] = True
-            session['user_id'] = user
-            flash('logged in')
+            session['user_id'] = user.id
             return redirect('/')
         else:
             print('wrong password')
@@ -38,6 +37,13 @@ def signup():
         session['user_id'] = user.id
         return redirect('/')
     return render_template('signup.html', form=form)
+
+@app.route('/logout')
+def logout():
+    session['logged_in'] = False
+    session['user_id'] = None
+    return redirect('/')
+
 
 def savevideo(formfile):
     random_hex = secrets.token_hex(6)
@@ -59,7 +65,7 @@ def upload_video():
             return redirect('/')
         return render_template('upload_video.html', form=form)
     else:
-        return redirect('/')
+        return redirect('login')
 
 @app.route("/video/<vid_id>", methods=['GET', 'POST'])
 def video(vid_id):
@@ -75,6 +81,13 @@ def video(vid_id):
     if video:
         return render_template('player.html', video=video, videos=videos, form=form, comments=comments)
     return abort(404)
+
+@app.route('/account', methods=['GET', 'POST'])
+def account():
+    if session['logged_in']:
+        user = User.query.get(session['user_id'])
+        return render_template('account.html', user=user)
+    return redirect('/signup')
 
 # @app.route('/comment/<vid_id>', methods=['GET', 'POST'])
 # def comment(vid_id):

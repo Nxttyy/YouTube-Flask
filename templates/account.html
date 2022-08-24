@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}{{user.username}}{% endblock %}
+{% block content %}
+    <img src="{{ url_for('static', filename='profiles/'+user.profile_img) }}">
+    <h2>{{ user.username}}</h2>
+    <a href="{{ url_for('logout') }}">log out</a>
+
+    {% for video in user.videos %}
+         <a href="{{ url_for('video', vid_id= video.id ) }}">
+            <div class="card">
+              <video src=" {{ url_for('static', filename='videos/'+ video.file_path ) }}  " alt="{{video.caption}}" class="video"> </video>
+              <div class="card-container">
+                <h3>{{ video.caption }}</h3>
+                <h4><b>{{ video.user.username }}</b></h4>
+                <p>{{ video.views }}</p>
+              </div>
+           </div>
+        </a>
+    {% endfor %} 
+{% endblock %}
