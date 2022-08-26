@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, validators, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, validators, ValidationError, BooleanField
 from flask_wtf.file import FileField, FileRequired
 from models import User
 
@@ -27,4 +27,9 @@ class VideoUploadForm(FlaskForm):
 
 class CommentForm(FlaskForm):
    content=StringField('comment', [validators.DataRequired()])
+   submit = SubmitField('post')
+
+class PlaylistForm(FlaskForm):
+   title=StringField('title', [validators.DataRequired()])
+   private = BooleanField('private', false_values=(False, 'false', 0, '0')) 
    submit = SubmitField('post')
