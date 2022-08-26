@@ -5,9 +5,11 @@ import secrets, os
 from models import User, Video, Comment, db, login, Playlist
 from flask_login import login_required, current_user, login_user, logout_user
 from app import app
+from flask_bootstrap import Bootstrap
 
 
 bcrypt = Bcrypt(app)
+Bootstrap(app)
 
 login.init_app(app)
 login.login_view = 'login'

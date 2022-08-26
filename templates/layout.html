@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+            <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
         <title>
             {% block title%}{% endblock%}
         </title>
@@ -8,7 +12,7 @@
         <link rel="stylesheet" href={{ url_for('static', filename='styles.css') }} >
     </head>
     <body>
-        <div class="container">
+        <div class="container container-flued">
             <div class="body-left">
                 <a href={{ url_for('home') }} >Home</a>
                 <a href="#">subscriptions</a>
@@ -23,7 +27,8 @@
                     </div>
                     <input type="text" placeholder="search" />
                     <div class='nav-right-group'>
-                        <a href={{ url_for('upload_video') }}><img class='svg' src= {{ url_for('static', filename="assets/SVGs/camera-video.svg") }} /></a>
+                        <a href={{ url_for('upload_video') }}>
+                            <img class='svg' src= {{ url_for('static', filename="assets/SVGs/camera-video.svg") }} /></a>
                         <img class='svg' src= {{ url_for('static', filename="assets/SVGs/bell-fill.svg") }} />
 
                         <a href={{ url_for('account') }}><img class='svg' src= {{ url_for('static', filename="assets/SVGs/person-circle.svg") }} /></a>
@@ -34,5 +39,6 @@
                 </div>
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     </body>
 </html>
