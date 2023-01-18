@@ -1,0 +1,12 @@
+body {
+    background-color:white;
+}
+
+.container > form{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.container label, a{
+    color: black;
+}
